@@ -1,58 +1,68 @@
-import transactions from "../data/transactions.json";
+const API_URL = "http://localhost:3001";
 
-const { user, transactions: list } = transactions;
+// Busca os dados do usuário
+export async function getUser() {
+  const response = await fetch(`${API_URL}/user`);
+  const data = await response.json();
+  return data[0];
+}
+
+// Busca todas as transações
+export async function getTransactions() {
+  const response = await fetch(`${API_URL}/transactions`);
+  return await response.json();
+}
 
 // Total gasto no mês
-export function getTotalSpent() {
-  return list.reduce((acc, t) => acc + t.amount, 0);
+export async function getTotalSpent() {
+  const transactions = await getTransactions();
+  return transactions.reduce((acc, t) => acc + t.amount, 0);
 }
 
 // Saldo restante
-export function getBalance() {
-  return user.monthlyIncome - getTotalSpent();
+export async function getBalance() {
+  const user = await getUser();
+  const totalSpent = await getTotalSpent();
+  return user.monthlyIncome - totalSpent;
 }
 
 // Percentual gasto da renda
-export function getSpentPercentage() {
-  return ((getTotalSpent() / user.monthlyIncome) * 100).toFixed(1);
+export async function getSpentPercentage() {
+  const user = await getUser();
+  const totalSpent = await getTotalSpent();
+  return ((totalSpent / user.monthlyIncome) * 100).toFixed(1);
 }
 
 // Total gasto por categoria
-export function getSpendingByCategory() {
-  return list.reduce((acc, t) => {
+export async function getSpendingByCategory() {
+  const transactions = await getTransactions();
+  return transactions.reduce((acc, t) => {
     acc[t.category] = (acc[t.category] || 0) + t.amount;
     return acc;
   }, {});
 }
 
 // Categoria que mais gastou
-export function getDominantCategory() {
-  const byCategory = getSpendingByCategory();
+export async function getDominantCategory() {
+  const byCategory = await getSpendingByCategory();
   return Object.entries(byCategory).reduce((a, b) => (a[1] > b[1] ? a : b));
 }
 
 // Média de gasto por transação
-export function getAverageTransaction() {
-  return (getTotalSpent() / list.length).toFixed(2);
-}
-
-// Lista de transações completa
-export function getTransactions() {
-  return list;
-}
-
-// Dados do usuário
-export function getUser() {
-  return user;
+export async function getAverageTransaction() {
+  const transactions = await getTransactions();
+  const totalSpent = await getTotalSpent();
+  return (totalSpent / transactions.length).toFixed(2);
 }
 
 // Insights automáticos
-export function getInsights() {
+export async function getInsights() {
   const insights = [];
-  const balance = getBalance();
-  const spentPct = parseFloat(getSpentPercentage());
-  const [dominantCat, dominantVal] = getDominantCategory();
-  const byCategory = getSpendingByCategory();
+  const user = await getUser();
+  const balance = await getBalance();
+  const spentPct = parseFloat(await getSpentPercentage());
+  const [dominantCat, dominantVal] = await getDominantCategory();
+  const byCategory = await getSpendingByCategory();
 
   if (spentPct > 90) {
     insights.push({
@@ -88,7 +98,6 @@ export function getInsights() {
     }
   }
 
-  // Simulação: economia de 10% em alimentação
   if (byCategory["Alimentação"]) {
     const economia = (byCategory["Alimentação"] * 0.1).toFixed(2);
     insights.push({
