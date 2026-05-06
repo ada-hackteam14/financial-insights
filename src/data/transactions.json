@@ -1,0 +1,218 @@
+{
+  "user": {
+    "name": "Ana Silva",
+    "monthlyIncome": 3500.0
+  },
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Supermercado Extra",
+      "amount": 450.0,
+      "category": "Alimentação",
+      "date": "2025-04-01"
+    },
+    {
+      "id": 2,
+      "description": "Uber",
+      "amount": 32.5,
+      "category": "Transporte",
+      "date": "2025-04-02"
+    },
+    {
+      "id": 3,
+      "description": "Netflix",
+      "amount": 55.9,
+      "category": "Lazer",
+      "date": "2025-04-03"
+    },
+    {
+      "id": 4,
+      "description": "Farmácia",
+      "amount": 89.0,
+      "category": "Saúde",
+      "date": "2025-04-04"
+    },
+    {
+      "id": 5,
+      "description": "Restaurante",
+      "amount": 78.0,
+      "category": "Alimentação",
+      "date": "2025-04-05"
+    },
+    {
+      "id": 6,
+      "description": "Conta de luz",
+      "amount": 180.0,
+      "category": "Moradia",
+      "date": "2025-04-06"
+    },
+    {
+      "id": 7,
+      "description": "Spotify",
+      "amount": 21.9,
+      "category": "Lazer",
+      "date": "2025-04-07"
+    },
+    {
+      "id": 8,
+      "description": "Mercadinho",
+      "amount": 120.0,
+      "category": "Alimentação",
+      "date": "2025-04-08"
+    },
+    {
+      "id": 9,
+      "description": "Ônibus mensal",
+      "amount": 150.0,
+      "category": "Transporte",
+      "date": "2025-04-09"
+    },
+    {
+      "id": 10,
+      "description": "Academia",
+      "amount": 99.0,
+      "category": "Saúde",
+      "date": "2025-04-10"
+    },
+    {
+      "id": 11,
+      "description": "Aluguel",
+      "amount": 900.0,
+      "category": "Moradia",
+      "date": "2025-04-10"
+    },
+    {
+      "id": 12,
+      "description": "iFood",
+      "amount": 65.0,
+      "category": "Alimentação",
+      "date": "2025-04-11"
+    },
+    {
+      "id": 13,
+      "description": "Cinema",
+      "amount": 48.0,
+      "category": "Lazer",
+      "date": "2025-04-12"
+    },
+    {
+      "id": 14,
+      "description": "Consulta médica",
+      "amount": 200.0,
+      "category": "Saúde",
+      "date": "2025-04-13"
+    },
+    {
+      "id": 15,
+      "description": "Padaria",
+      "amount": 35.0,
+      "category": "Alimentação",
+      "date": "2025-04-14"
+    },
+    {
+      "id": 16,
+      "description": "Gasolina",
+      "amount": 180.0,
+      "category": "Transporte",
+      "date": "2025-04-15"
+    },
+    {
+      "id": 17,
+      "description": "Internet",
+      "amount": 99.9,
+      "category": "Moradia",
+      "date": "2025-04-16"
+    },
+    {
+      "id": 18,
+      "description": "Loja de roupas",
+      "amount": 230.0,
+      "category": "Vestuário",
+      "date": "2025-04-17"
+    },
+    {
+      "id": 19,
+      "description": "Hortifruti",
+      "amount": 55.0,
+      "category": "Alimentação",
+      "date": "2025-04-18"
+    },
+    {
+      "id": 20,
+      "description": "Show de música",
+      "amount": 120.0,
+      "category": "Lazer",
+      "date": "2025-04-19"
+    },
+    {
+      "id": 21,
+      "description": "Farmácia",
+      "amount": 45.0,
+      "category": "Saúde",
+      "date": "2025-04-20"
+    },
+    {
+      "id": 22,
+      "description": "Uber",
+      "amount": 28.0,
+      "category": "Transporte",
+      "date": "2025-04-21"
+    },
+    {
+      "id": 23,
+      "description": "Supermercado",
+      "amount": 320.0,
+      "category": "Alimentação",
+      "date": "2025-04-22"
+    },
+    {
+      "id": 24,
+      "description": "Água e esgoto",
+      "amount": 65.0,
+      "category": "Moradia",
+      "date": "2025-04-23"
+    },
+    {
+      "id": 25,
+      "description": "Sapatos",
+      "amount": 189.0,
+      "category": "Vestuário",
+      "date": "2025-04-24"
+    },
+    {
+      "id": 26,
+      "description": "iFood",
+      "amount": 42.0,
+      "category": "Alimentação",
+      "date": "2025-04-25"
+    },
+    {
+      "id": 27,
+      "description": "Disney+",
+      "amount": 38.9,
+      "category": "Lazer",
+      "date": "2025-04-26"
+    },
+    {
+      "id": 28,
+      "description": "Manutenção carro",
+      "amount": 350.0,
+      "category": "Transporte",
+      "date": "2025-04-27"
+    },
+    {
+      "id": 29,
+      "description": "Restaurante",
+      "amount": 95.0,
+      "category": "Alimentação",
+      "date": "2025-04-28"
+    },
+    {
+      "id": 30,
+      "description": "Condomínio",
+      "amount": 280.0,
+      "category": "Moradia",
+      "date": "2025-04-29"
+    }
+  ]
+}
