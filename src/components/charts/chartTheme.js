@@ -1,3 +1,5 @@
+import { moneyFormatter } from "../../utils/analytics";
+
 export const categoryColors = {
   Alimentação: "#FF4D6D",
   Lazer: "#8B5CF6",
@@ -10,11 +12,7 @@ export const categoryColors = {
 
 export const fallbackColor = "#64748B";
 
-export const moneyFormatter = value =>
-  `R$ ${Number(value).toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  })}`;
+export { moneyFormatter };
 
 export const getCategoryColor = category =>
   categoryColors[category] || fallbackColor;

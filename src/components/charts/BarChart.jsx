@@ -8,13 +8,14 @@ const BarChart = ({ data }) => {
 
   const options = {
     chart: {
-      foreColor: "#e5e7eb",
+      foreColor: "#4b5563",
       toolbar: { show: false }
     },
     plotOptions: {
       bar: {
         borderRadius: 8,
-        columnWidth: "42%"
+        columnWidth: "42%",
+        distributed: true
       }
     },
     xaxis: {
@@ -25,7 +26,7 @@ const BarChart = ({ data }) => {
         hideOverlappingLabels: false,
         trim: false,
         style: {
-          colors: "#cbd5e1",
+          colors: "#4b5563",
           fontSize: "12px"
         }
       }
@@ -33,19 +34,21 @@ const BarChart = ({ data }) => {
     yaxis: {
       labels: {
         style: {
-          colors: "#cbd5e1"
+          colors: "#4b5563"
         },
         formatter: val => moneyFormatter(val)
       }
     },
     grid: {
-      borderColor: "rgba(148, 163, 184, 0.18)"
+      borderColor: "rgba(107, 114, 128, 0.18)"
     },
     dataLabels: {
       enabled: false
     },
+    legend: {
+      show: false
+    },
     tooltip: {
-      theme: "dark",
       y: {
         formatter: val => moneyFormatter(val)
       }
@@ -64,8 +67,10 @@ const BarChart = ({ data }) => {
   const series = [{ name: "Gastos", data: values }];
 
   return (
-    <div className="chart-card">
-      <h2>Comparação de gastos</h2>
+    <div className="bg-gray-50 border border-purple-100 rounded-3xl p-4 sm:p-5 shadow-sm">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">
+        Comparação de gastos
+      </h2>
       <Chart options={options} series={series} type="bar" height={350} />
     </div>
   );

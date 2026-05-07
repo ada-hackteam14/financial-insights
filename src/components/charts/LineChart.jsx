@@ -17,7 +17,7 @@ const LineChart = ({ data }) => {
 
   const options = {
     chart: {
-      foreColor: "#e5e7eb",
+      foreColor: "#4b5563",
       toolbar: { show: false },
       zoom: { enabled: false }
     },
@@ -38,14 +38,14 @@ const LineChart = ({ data }) => {
       categories,
       tickAmount: 5,
       axisBorder: {
-        color: "rgba(148, 163, 184, 0.22)"
+        color: "rgba(107, 114, 128, 0.22)"
       },
       axisTicks: {
-        color: "rgba(148, 163, 184, 0.22)"
+        color: "rgba(107, 114, 128, 0.22)"
       },
       labels: {
         style: {
-          colors: "#cbd5e1",
+          colors: "#4b5563",
           fontSize: "12px"
         }
       }
@@ -54,14 +54,14 @@ const LineChart = ({ data }) => {
       tickAmount: 4,
       labels: {
         style: {
-          colors: "#cbd5e1",
+          colors: "#4b5563",
           fontSize: "12px"
         },
         formatter: val => compactMoneyFormatter(val)
       }
     },
     grid: {
-      borderColor: "rgba(148, 163, 184, 0.14)",
+      borderColor: "rgba(107, 114, 128, 0.14)",
       strokeDashArray: 4,
       xaxis: {
         lines: {
@@ -79,7 +79,6 @@ const LineChart = ({ data }) => {
       }
     },
     tooltip: {
-      theme: "dark",
       marker: {
         show: false
       },
@@ -93,10 +92,12 @@ const LineChart = ({ data }) => {
   const series = [{ name: "Gasto acumulado", data: values }];
 
   return (
-    <div className="chart-card chart-card--wide">
-      <h2>Evolução dos gastos no mês</h2>
+    <div className="bg-gray-50 border border-purple-100 rounded-3xl p-4 sm:p-5 shadow-sm">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">
+        Evolução dos gastos no mês
+      </h2>
       <Chart options={options} series={series} type="area" height={280} />
-      <p className="chart-insight">
+      <p className="rounded-2xl bg-purple-50 text-purple-900 p-4 mt-3 leading-relaxed">
         O gasto acumulado cresceu {moneyFormatter(growth)} no período analisado.
       </p>
     </div>

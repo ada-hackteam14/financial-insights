@@ -5,11 +5,11 @@ const PieChart = ({ data, dominant, total }) => {
   const series = data.map(item => item.total);
   const labels = data.map(item => item.category);
   const colors = data.map(item => getCategoryColor(item.category));
-  const dominantPercent = (dominant.total / total) * 100;
+  const dominantPercent = total > 0 ? (dominant.total / total) * 100 : 0;
 
   const options = {
     chart: {
-      foreColor: "#e5e7eb",
+      foreColor: "#4b5563",
       animations: {
         enabled: true,
         easing: "easeinout",
@@ -26,12 +26,12 @@ const PieChart = ({ data, dominant, total }) => {
             show: true,
             name: {
               show: true,
-              color: "#cbd5e1",
+              color: "#6b7280",
               fontSize: "13px"
             },
             value: {
               show: true,
-              color: "#f8fafc",
+              color: "#4c1d95",
               fontSize: "22px",
               fontWeight: 800,
               formatter: val => moneyFormatter(Number(val))
@@ -39,7 +39,7 @@ const PieChart = ({ data, dominant, total }) => {
             total: {
               show: true,
               label: "Maior gasto",
-              color: "#cbd5e1",
+              color: "#6b7280",
               formatter: () => dominant.category
             }
           }
@@ -49,7 +49,7 @@ const PieChart = ({ data, dominant, total }) => {
     legend: {
       position: "bottom",
       labels: {
-        colors: "#e5e7eb"
+        colors: "#4b5563"
       }
     },
     dataLabels: {
@@ -66,7 +66,6 @@ const PieChart = ({ data, dominant, total }) => {
       formatter: val => `${val.toFixed(1)}%`
     },
     tooltip: {
-      theme: "dark",
       y: {
         formatter: val => moneyFormatter(val)
       }
@@ -74,10 +73,12 @@ const PieChart = ({ data, dominant, total }) => {
   };
 
   return (
-    <div className="chart-card">
-      <h2>Para onde vai seu dinheiro?</h2>
+    <div className="bg-gray-50 border border-purple-100 rounded-3xl p-4 sm:p-5 shadow-sm">
+      <h2 className="text-lg font-bold text-gray-800 mb-4">
+        Para onde vai seu dinheiro?
+      </h2>
       <Chart options={options} series={series} type="donut" height={340} />
-      <p className="chart-insight">
+      <p className="rounded-2xl bg-purple-50 text-purple-900 p-4 mt-3 leading-relaxed">
         {dominant.category} concentra {dominantPercent.toFixed(1)}% dos gastos.
         Esse é o principal ponto de atenção para economizar.
       </p>
