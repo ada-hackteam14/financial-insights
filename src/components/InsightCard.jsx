@@ -1,3 +1,11 @@
+import {
+  AlertTriangle,
+  CircleAlert,
+  CheckCircle2,
+  Info,
+  Lightbulb,
+} from "lucide-react";
+
 export default function InsightCard(props) {
   const variants = {
     danger: {
@@ -6,39 +14,43 @@ export default function InsightCard(props) {
       iconBg: "bg-red-100",
       text: "text-red-600",
       title: "Alerta",
-      icon: "🚨",
+      icon: AlertTriangle,
     },
+
     warning: {
       bg: "bg-yellow-50",
       border: "border-yellow-200",
       iconBg: "bg-yellow-100",
       text: "text-yellow-600",
       title: "Atenção",
-      icon: "⚠️",
+      icon: CircleAlert,
     },
+
     success: {
       bg: "bg-green-50",
       border: "border-green-200",
       iconBg: "bg-green-100",
       text: "text-green-600",
       title: "Sucesso",
-      icon: "✅",
+      icon: CheckCircle2,
     },
+
     info: {
       bg: "bg-blue-50",
       border: "border-blue-200",
       iconBg: "bg-blue-100",
       text: "text-blue-600",
       title: "Informação",
-      icon: "📊",
+      icon: Info,
     },
+
     tip: {
       bg: "bg-purple-50",
       border: "border-purple-200",
       iconBg: "bg-purple-100",
       text: "text-purple-600",
       title: "Dica",
-      icon: "💡",
+      icon: Lightbulb,
     },
   };
 
@@ -47,6 +59,8 @@ export default function InsightCard(props) {
   if (!current) {
     return null;
   }
+
+  const Icon = current.icon;
 
   return (
     <div
@@ -59,11 +73,11 @@ export default function InsightCard(props) {
         sm:p-5
         flex
         gap-4
-        transition 
-        ease-in-out 
-        delay-150
-        hover:-translate-y-1 
-        hover:scale-105
+        transition-all
+        duration-300
+        hover:-translate-y-1
+        hover:scale-[1.02]
+        hover:shadow-lg
         w-full
       `}
     >
@@ -79,7 +93,13 @@ export default function InsightCard(props) {
           shrink-0
         `}
       >
-        {current.icon}
+        <Icon
+          className={`
+            w-6
+            h-6
+            ${current.text}
+          `}
+        />
       </div>
 
       <div>
