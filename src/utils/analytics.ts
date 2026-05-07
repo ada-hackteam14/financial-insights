@@ -36,6 +36,7 @@ export type FinancialDashboard = {
   dominantCategory: CategorySummary;
   insights: Insight[];
   possibleSavings: number;
+  realBalance: number;
   spentPercentage: number;
   totalSpent: number;
   trend: TrendPoint[];
@@ -123,11 +124,17 @@ const buildInsights = (
   balance: number,
   dominantCategory: CategorySummary,
   possibleSavings: number,
+  realBalance: number,
   spentPercentage: number
 ): Insight[] => {
   const insights: Insight[] = [];
 
-  if (spentPercentage > 90) {
+  if (realBalance < 0) {
+    insights.push({
+      type: "danger",
+      message: `Atenção: os gastos ultrapassaram a renda em ${moneyFormatter(Math.abs(realBalance))}.`
+    });
+  } else if (spentPercentage > 90) {
     insights.push({
       type: "danger",
       message: `Atenção: você já usou ${spentPercentage.toFixed(1)}% da sua renda mensal.`
@@ -163,7 +170,8 @@ export const buildFinancialDashboard = (
 ): FinancialDashboard => {
   const categories = buildCategories(transactions, user.monthlyIncome);
   const totalSpent = categories.reduce((sum, item) => sum + item.total, 0);
-  const balance = user.monthlyIncome - totalSpent;
+  const realBalance = user.monthlyIncome - totalSpent;
+  const balance = realBalance;
   const spentPercentage =
     user.monthlyIncome > 0 ? (totalSpent / user.monthlyIncome) * 100 : 0;
   const dominantCategory = categories[0] || {
@@ -182,9 +190,11 @@ export const buildFinancialDashboard = (
       balance,
       dominantCategory,
       possibleSavings,
+      realBalance,
       spentPercentage
     ),
     possibleSavings,
+    realBalance,
     spentPercentage,
     totalSpent,
     trend: buildTrend(transactions)
