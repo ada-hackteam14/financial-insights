@@ -12,16 +12,17 @@
     "start": "concurrently \"npm run dev\" \"npm run api\""
   },
   "dependencies": {
-<<<<<<< HEAD
-    "chart.js": "^4.5.1",
-    "lucide-react": "^1.14.0",
-=======
     "apexcharts": "^5.10.6",
->>>>>>> main
+
+    "@tailwindcss/vite": "^4.2.4",
+    "apexcharts": "^5.10.6",
+    "lucide-react": "^1.14.0",
+
     "react": "^19.2.5",
     "react-apexcharts": "^2.1.0",
     "react-dom": "^19.2.5",
-    "react-router-dom": "^7.14.2"
+    "react-router-dom": "^7.14.2",
+    "tailwindcss": "^4.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
