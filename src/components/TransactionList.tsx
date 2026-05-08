@@ -1,14 +1,20 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
 import TransactionItem from "./TransactionItem";
+import { Transaction } from "../utils/analytics";
 
-export default function TransactionList(props) {
+interface TransactionListProps {
+  transactions: Transaction[];
+}
+
+export default function TransactionList({
+  transactions,
+}: TransactionListProps): React.ReactElement {
   const [expanded, setExpanded] = useState(false);
 
   const visibleTransactions = expanded
-    ? props.transactions
-    : props.transactions.slice(0, 6);
+    ? transactions
+    : transactions.slice(0, 6);
 
   return (
     <div
@@ -52,22 +58,17 @@ export default function TransactionList(props) {
             flex
             items-center
             gap-2
-
             text-purple-600
             text-sm
             font-medium
-
             self-start
             sm:self-auto
-
             transition-all
             duration-300
-
             hover:text-purple-800
           "
         >
           {expanded ? "Mostrar menos" : "Ver todos"}
-
           {expanded ? (
             <ChevronUp className="w-4 h-4" />
           ) : (

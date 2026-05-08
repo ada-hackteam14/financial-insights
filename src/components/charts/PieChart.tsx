@@ -1,20 +1,31 @@
 import Chart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
+import { CategorySummary } from "../../utils/analytics";
 import { getCategoryColor, moneyFormatter } from "./chartTheme";
 
-const PieChart = ({ data, dominant, total }) => {
-  const series = data.map(item => item.total);
-  const labels = data.map(item => item.category);
-  const colors = data.map(item => getCategoryColor(item.category));
+interface PieChartProps {
+  data: CategorySummary[];
+  dominant: CategorySummary;
+  total: number;
+}
+
+const PieChart = ({
+  data,
+  dominant,
+  total,
+}: PieChartProps): React.ReactElement => {
+  const series = data.map((item) => item.total);
+  const labels = data.map((item) => item.category);
+  const colors = data.map((item) => getCategoryColor(item.category));
   const dominantPercent = total > 0 ? (dominant.total / total) * 100 : 0;
 
-  const options = {
+  const options: ApexOptions = {
     chart: {
       foreColor: "#4b5563",
       animations: {
         enabled: true,
-        easing: "easeinout",
-        speed: 900
-      }
+        speed: 900,
+      },
     },
     labels,
     colors,
@@ -27,49 +38,49 @@ const PieChart = ({ data, dominant, total }) => {
             name: {
               show: true,
               color: "#6b7280",
-              fontSize: "13px"
+              fontSize: "13px",
             },
             value: {
               show: true,
               color: "#4c1d95",
               fontSize: "22px",
               fontWeight: 800,
-              formatter: val => moneyFormatter(Number(val))
+              formatter: (val) => moneyFormatter(Number(val)),
             },
             total: {
               show: true,
               label: "Maior gasto",
               color: "#6b7280",
-              formatter: () => dominant.category
-            }
-          }
-        }
-      }
+              formatter: () => dominant.category,
+            },
+          },
+        },
+      },
     },
     legend: {
       position: "bottom",
       labels: {
-        colors: "#4b5563"
-      }
+        colors: "#4b5563",
+      },
     },
     dataLabels: {
       enabled: true,
       style: {
         colors: ["#ffffff"],
-        fontWeight: 700
+        fontWeight: 700,
       },
       dropShadow: {
         enabled: true,
         blur: 2,
-        opacity: 0.45
+        opacity: 0.45,
       },
-      formatter: val => `${val.toFixed(1)}%`
+      formatter: (val) => `${Number(val).toFixed(1)}%`,
     },
     tooltip: {
       y: {
-        formatter: val => moneyFormatter(val)
-      }
-    }
+        formatter: (val) => moneyFormatter(val),
+      },
+    },
   };
 
   return (

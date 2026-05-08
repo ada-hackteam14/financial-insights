@@ -12,8 +12,8 @@
     "start": "concurrently \"npm run dev\" \"npm run api\""
   },
   "dependencies": {
-    "apexcharts": "^5.10.6",
     "@tailwindcss/vite": "^4.2.4",
+    "apexcharts": "^5.10.6",
     "lucide-react": "^1.14.0",
     "react": "^19.2.5",
     "react-apexcharts": "^2.1.0",
