@@ -66,7 +66,7 @@
     {
       "id": 9,
       "description": "Ônibus mensal",
-      "amount": 120.0,
+      "amount": 110.0,
       "category": "Transporte",
       "date": "2025-04-09"
     },
@@ -80,14 +80,14 @@
     {
       "id": 11,
       "description": "Aluguel",
-      "amount": 700.0,
+      "amount": 500.0,
       "category": "Moradia",
       "date": "2025-04-10"
     },
     {
       "id": 12,
       "description": "iFood",
-      "amount": 45.0,
+      "amount": 65.0,
       "category": "Alimentação",
       "date": "2025-04-11"
     },
@@ -108,7 +108,7 @@
     {
       "id": 15,
       "description": "Padaria",
-      "amount": 25.0,
+      "amount": 45.0,
       "category": "Alimentação",
       "date": "2025-04-14"
     },
@@ -122,7 +122,7 @@
     {
       "id": 17,
       "description": "Internet",
-      "amount": 89.9,
+      "amount": 59.9,
       "category": "Moradia",
       "date": "2025-04-16"
     },
@@ -185,7 +185,7 @@
     {
       "id": 26,
       "description": "iFood",
-      "amount": 35.0,
+      "amount": 50.0,
       "category": "Alimentação",
       "date": "2025-04-25"
     },
@@ -206,7 +206,7 @@
     {
       "id": 29,
       "description": "Restaurante",
-      "amount": 70.0,
+      "amount": 90.0,
       "category": "Alimentação",
       "date": "2025-04-28"
     },

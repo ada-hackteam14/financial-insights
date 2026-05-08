@@ -45,14 +45,8 @@ export type FinancialDashboard = {
 };
 
 const categoryNames: Record<string, string> = {
-  "AlimentaÃ§Ã£o": "Alimentação",
-  Alimentacao: "Alimentação",
   Alimentação: "Alimentação",
-  SaÃºde: "Saúde",
-  Saude: "Saúde",
   Saúde: "Saúde",
-  "VestuÃ¡rio": "Vestuário",
-  Vestuario: "Vestuário",
   Vestuário: "Vestuário",
   Moradia: "Moradia",
   Transporte: "Transporte",

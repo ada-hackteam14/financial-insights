@@ -23,11 +23,11 @@ export default function CategoryCard({
       </p>
 
       <h2 className="text-xl sm:text-2xl font-bold text-purple-800 mt-3">
-        R$ {formattedValue} {/* Exibe o valor formatado */}
+        R$ {formattedValue}
       </h2>
 
       <p className="text-xs sm:text-sm text-gray-500 mt-2">
-        {percentage.toFixed(0)}% da renda {/* Formata a porcentagem aqui */}
+        {percentage.toFixed(0)}% da renda
       </p>
 
       <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
