@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 // Components
-import NavBar from "../components/navbar";
+import NavBar from "../components/NavBar";
 import SummaryCard from "../components/SummaryCard";
 import InsightCard from "../components/InsightCard";
 import CategoryCard from "../components/CategoryCard";
@@ -71,7 +71,7 @@ export default function Dashboard(): React.JSX.Element {
   return (
     <div className="flex">
       <NavBar />
-    
+
       <main className="min-h-screen bg-slate-50 text-gray-900 px-4 py-6 sm:px-6 lg:px-10 2xl:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
@@ -128,7 +128,7 @@ export default function Dashboard(): React.JSX.Element {
               />
               <BarChart data={dashboard.categories} />
               <div className="xl:col-span-2">
-                  <LineChart data={dashboard.trend} />
+                <LineChart data={dashboard.trend} />
               </div>
             </div>
           </div>
@@ -163,6 +163,5 @@ export default function Dashboard(): React.JSX.Element {
         </div>
       </main>
     </div>
-    
   );
 }
