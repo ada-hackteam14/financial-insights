@@ -1,4 +1,14 @@
-export default function TransactionItem(props) {
+interface TransactionItemProps {
+  description: string;
+  category: string;
+  amount: number;
+}
+
+export default function TransactionItem({
+  description,
+  category,
+  amount,
+}: TransactionItemProps): React.ReactElement {
   return (
     <div
       className="
@@ -25,18 +35,10 @@ export default function TransactionItem(props) {
             truncate
           "
         >
-          {props.description}
+          {description}
         </p>
 
-        <p
-          className="
-            text-xs
-            sm:text-sm
-            text-gray-500
-          "
-        >
-          {props.category}
-        </p>
+        <p className="text-xs sm:text-sm text-gray-500">{category}</p>
       </div>
 
       <p
@@ -48,7 +50,7 @@ export default function TransactionItem(props) {
           whitespace-nowrap
         "
       >
-        -R$ {props.amount}
+        -R$ {amount.toFixed(2)}
       </p>
     </div>
   );

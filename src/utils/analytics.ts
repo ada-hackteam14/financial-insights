@@ -1,3 +1,5 @@
+const API_URL = "http://127.0.0.1:3001";
+
 export type InsightType = "danger" | "warning" | "success" | "info" | "tip";
 
 export type User = {
@@ -46,7 +48,7 @@ const categoryNames: Record<string, string> = {
   "AlimentaÃ§Ã£o": "Alimentação",
   Alimentacao: "Alimentação",
   Alimentação: "Alimentação",
-  "SaÃºde": "Saúde",
+  SaÃºde: "Saúde",
   Saude: "Saúde",
   Saúde: "Saúde",
   "VestuÃ¡rio": "Vestuário",
@@ -54,7 +56,7 @@ const categoryNames: Record<string, string> = {
   Vestuário: "Vestuário",
   Moradia: "Moradia",
   Transporte: "Transporte",
-  Lazer: "Lazer"
+  Lazer: "Lazer",
 };
 
 export const normalizeCategory = (category: string) =>
@@ -63,12 +65,12 @@ export const normalizeCategory = (category: string) =>
 export const moneyFormatter = (value: number) =>
   `R$ ${Number(value).toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   })}`;
 
 const buildCategories = (
   transactions: Transaction[],
-  monthlyIncome: number
+  monthlyIncome: number,
 ): CategorySummary[] => {
   const totals = transactions.reduce<Record<string, number>>(
     (acc, transaction) => {
@@ -76,14 +78,14 @@ const buildCategories = (
       acc[category] = (acc[category] || 0) + Number(transaction.amount);
       return acc;
     },
-    {}
+    {},
   );
 
   return Object.entries(totals)
     .map(([category, total]) => ({
       category,
       total,
-      percentage: monthlyIncome > 0 ? (total / monthlyIncome) * 100 : 0
+      percentage: monthlyIncome > 0 ? (total / monthlyIncome) * 100 : 0,
     }))
     .sort((a, b) => b.total - a.total);
 };
@@ -94,11 +96,10 @@ const buildTrend = (transactions: Transaction[]): TrendPoint[] => {
       const day = new Date(`${transaction.date}T00:00:00`).getDate();
       const week = Math.ceil(day / 7);
       const label = `Semana ${week}`;
-
       acc[label] = (acc[label] || 0) + Number(transaction.amount);
       return acc;
     },
-    {}
+    {},
   );
 
   let accumulated = 0;
@@ -107,15 +108,11 @@ const buildTrend = (transactions: Transaction[]): TrendPoint[] => {
     .sort(
       ([weekA], [weekB]) =>
         Number(weekA.replace("Semana ", "")) -
-        Number(weekB.replace("Semana ", ""))
+        Number(weekB.replace("Semana ", "")),
     )
     .map(([label, total]) => {
       accumulated += total;
-
-      return {
-        label,
-        total: accumulated
-      };
+      return { label, total: accumulated };
     });
 };
 
@@ -125,40 +122,40 @@ const buildInsights = (
   dominantCategory: CategorySummary,
   possibleSavings: number,
   realBalance: number,
-  spentPercentage: number
+  spentPercentage: number,
 ): Insight[] => {
   const insights: Insight[] = [];
 
   if (realBalance < 0) {
     insights.push({
       type: "danger",
-      message: `Atenção: os gastos ultrapassaram a renda em ${moneyFormatter(Math.abs(realBalance))}.`
+      message: `Atenção: os gastos ultrapassaram a renda em ${moneyFormatter(Math.abs(realBalance))}.`,
     });
   } else if (spentPercentage > 90) {
     insights.push({
       type: "danger",
-      message: `Atenção: você já usou ${spentPercentage.toFixed(1)}% da sua renda mensal.`
+      message: `Atenção: você já usou ${spentPercentage.toFixed(1)}% da sua renda mensal.`,
     });
   } else if (spentPercentage > 70) {
     insights.push({
       type: "warning",
-      message: `Você já usou ${spentPercentage.toFixed(1)}% da sua renda. Vale revisar gastos variáveis.`
+      message: `Você já usou ${spentPercentage.toFixed(1)}% da sua renda. Vale revisar gastos variáveis.`,
     });
   } else {
     insights.push({
       type: "success",
-      message: `Bom controle: ainda restam ${moneyFormatter(balance)} da renda mensal de ${moneyFormatter(user.monthlyIncome)}.`
+      message: `Bom controle: ainda restam ${moneyFormatter(balance)} da renda mensal de ${moneyFormatter(user.monthlyIncome)}.`,
     });
   }
 
   insights.push({
     type: "info",
-    message: `${dominantCategory.category} é a categoria dominante, com ${moneyFormatter(dominantCategory.total)} em gastos.`
+    message: `${dominantCategory.category} é a categoria dominante, com ${moneyFormatter(dominantCategory.total)} em gastos.`,
   });
 
   insights.push({
     type: "tip",
-    message: `Reduzindo 10% em ${dominantCategory.category}, você pode economizar cerca de ${moneyFormatter(possibleSavings)} neste mês.`
+    message: `Reduzindo 10% em ${dominantCategory.category}, você pode economizar cerca de ${moneyFormatter(possibleSavings)} neste mês.`,
   });
 
   return insights;
@@ -166,7 +163,7 @@ const buildInsights = (
 
 export const buildFinancialDashboard = (
   user: User,
-  transactions: Transaction[]
+  transactions: Transaction[],
 ): FinancialDashboard => {
   const categories = buildCategories(transactions, user.monthlyIncome);
   const totalSpent = categories.reduce((sum, item) => sum + item.total, 0);
@@ -177,7 +174,7 @@ export const buildFinancialDashboard = (
   const dominantCategory = categories[0] || {
     category: "Outros",
     percentage: 0,
-    total: 0
+    total: 0,
   };
   const possibleSavings = dominantCategory.total * 0.1;
 
@@ -191,12 +188,31 @@ export const buildFinancialDashboard = (
       dominantCategory,
       possibleSavings,
       realBalance,
-      spentPercentage
+      spentPercentage,
     ),
     possibleSavings,
     realBalance,
     spentPercentage,
     totalSpent,
-    trend: buildTrend(transactions)
+    trend: buildTrend(transactions),
   };
 };
+
+export async function getUser(): Promise<User> {
+  const response = await fetch(`${API_URL}/user`);
+  const data: User[] = await response.json();
+  return data[0];
+}
+
+export async function getTransactions(): Promise<Transaction[]> {
+  const response = await fetch(`${API_URL}/transactions`);
+  return await response.json();
+}
+
+export async function getDashboardData(): Promise<FinancialDashboard> {
+  const [user, transactions] = await Promise.all([
+    getUser(),
+    getTransactions(),
+  ]);
+  return buildFinancialDashboard(user, transactions);
+}
