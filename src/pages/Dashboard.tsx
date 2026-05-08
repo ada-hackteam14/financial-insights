@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
+// Components
 import SummaryCard from "../components/SummaryCard";
 import InsightCard from "../components/InsightCard";
 import CategoryCard from "../components/CategoryCard";
@@ -8,17 +9,23 @@ import PieChart from "../components/charts/PieChart";
 import BarChart from "../components/charts/BarChart";
 import LineChart from "../components/charts/LineChart";
 
-import { getUser, getTransactions } from "../utils/calculations";
 import {
+  getUser,
+  getTransactions,
   buildFinancialDashboard,
   moneyFormatter,
+  User,
+  Transaction,
+  FinancialDashboard,
 } from "../utils/analytics";
 
-export default function Dashboard() {
-  const [dashboard, setDashboard] = useState(null);
-  const [transactions, setTransactions] = useState([]);
-  const [user, setUser] = useState(null);
-  const [status, setStatus] = useState("loading");
+type Status = "loading" | "success" | "error";
+
+export default function Dashboard(): React.JSX.Element {
+  const [dashboard, setDashboard] = useState<FinancialDashboard | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+  const [status, setStatus] = useState<Status>("loading");
 
   useEffect(() => {
     async function loadData() {
@@ -26,11 +33,16 @@ export default function Dashboard() {
         const userData = await getUser();
         const transactionsData = await getTransactions();
 
-        setUser(userData);
-        setTransactions(transactionsData);
-        setDashboard(buildFinancialDashboard(userData, transactionsData));
-        setStatus("success");
-      } catch {
+        if (userData && transactionsData) {
+          setUser(userData);
+          setTransactions(transactionsData);
+          setDashboard(buildFinancialDashboard(userData, transactionsData));
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      } catch (err) {
+        console.error("Erro ao carregar dados:", err);
         setStatus("error");
       }
     }
@@ -39,13 +51,18 @@ export default function Dashboard() {
   }, []);
 
   if (status === "loading") {
-    return <div className="p-10 text-gray-700">Carregando análise...</div>;
+    return (
+      <div className="p-10 text-gray-700">
+        Carregando análise inteligente...
+      </div>
+    );
   }
 
-  if (status === "error") {
+  if (status === "error" || !user || !dashboard) {
     return (
       <div className="p-10 text-red-700">
-        Não foi possível carregar os dados. Rode npm run api em outro terminal.
+        Não foi possível carregar os dados. Verifique se o servidor API está
+        rodando.
       </div>
     );
   }
@@ -62,8 +79,10 @@ export default function Dashboard() {
           </h1>
           <p className="text-gray-600 mt-2 max-w-3xl">
             Seu consumo este mês está concentrado em{" "}
-            {dashboard.dominantCategory.category}. Os gráficos abaixo
-            transformam suas transações em decisões rápidas de economia.
+            <span className="font-semibold text-purple-700">
+              {dashboard.dominantCategory.category}
+            </span>
+            .
           </p>
         </div>
 
@@ -73,23 +92,18 @@ export default function Dashboard() {
             value={moneyFormatter(user.monthlyIncome)}
             subtitle="/por mês"
           />
-
           <SummaryCard
             title="Total gasto"
             value={moneyFormatter(dashboard.totalSpent)}
             subtitle={`${dashboard.spentPercentage.toFixed(1)}% da renda`}
           />
-
           <SummaryCard
             title="Saldo restante"
             value={moneyFormatter(dashboard.balance)}
             subtitle={
-              dashboard.realBalance < 0
-                ? "renda mensal já comprometida"
-                : "saldo"
+              dashboard.realBalance < 0 ? "renda comprometida" : "disponível"
             }
           />
-
           <SummaryCard
             title="Economia possível"
             value={moneyFormatter(dashboard.possibleSavings)}
@@ -97,11 +111,11 @@ export default function Dashboard() {
           />
         </div>
 
+        {/* Gráficos */}
         <div className="mb-8">
-          <h2 className="text-lg font-bold text-gray-800 uppercase mb-4">
+          <h2 className="text-lg font-bold text-gray-800 uppercase mb-4 text-sm tracking-wider">
             Visualizações de consumo
           </h2>
-
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
             <PieChart
               data={dashboard.categories}
@@ -115,43 +129,32 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-gray-800 uppercase mb-4">
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-gray-800 uppercase mb-4 text-sm tracking-wider">
             Alertas e recomendações
           </h2>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {dashboard.insights.map((item, index) => (
               <InsightCard
                 key={index}
-                type={item.type}
+                type={item.type === "tip" ? "info" : item.type}
                 message={item.message}
               />
             ))}
           </div>
         </div>
-
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-gray-800 uppercase mb-4">
-            Visão por Categoria
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {dashboard.categories.map(item => (
-              <CategoryCard
-                key={item.category}
-                category={item.category}
-                value={item.total.toLocaleString("pt-BR", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-                percentage={item.percentage.toFixed(0)}
-                color="bg-purple-700"
-              />
-            ))}
-          </div>
+        {/* Visão por Categoria */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {dashboard.categories.map((item) => (
+            <CategoryCard
+              key={item.category}
+              category={item.category}
+              value={item.total}
+              percentage={item.percentage}
+              color="bg-purple-700"
+            />
+          ))}
         </div>
-
         <TransactionList transactions={transactions} />
       </div>
     </main>

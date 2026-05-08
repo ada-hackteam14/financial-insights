@@ -1,20 +1,31 @@
-export default function CategoryCard(props) {
+interface SummaryCardProps {
+  title: string;
+  value: string | number;
+  subtitle?: string;
+}
+
+export default function SummaryCard({
+  title,
+  value,
+  subtitle,
+}: SummaryCardProps): React.ReactElement {
   return (
     <div
       className="
         bg-gray-50
         border
         border-purple-100
-        rounded-3xl
+        rounded-2xl
         p-4
         sm:p-5
+        md:p-6
         shadow-sm
+        w-full
         transition 
         ease-in-out 
         delay-150
         hover:-translate-y-1 
         hover:scale-100
-        w-full
       "
     >
       <p
@@ -22,35 +33,27 @@ export default function CategoryCard(props) {
           text-[10px]
           sm:text-xs
           uppercase
-          text-gray-500
           tracking-wider
+          text-gray-500
         "
       >
-        {props.category}
+        {title}
       </p>
 
       <h2
         className="
-          text-xl
-          sm:text-2xl
+          text-2xl
+          sm:text-3xl
           font-bold
+          mt-2
+          sm:mt-3
           text-purple-800
-          mt-3
         "
       >
-        R$ {props.value}
+        {value}
       </h2>
 
-      <p className="text-xs sm:text-sm text-gray-500 mt-2">
-        {props.percentage}% da renda
-      </p>
-
-      <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-        <div
-          className={`h-2 rounded-full ${props.color}`}
-          style={{ width: `${props.percentage}%` }}
-        />
-      </div>
+      <p className="text-xs sm:text-sm text-gray-500 mt-2">{subtitle}</p>
     </div>
   );
 }

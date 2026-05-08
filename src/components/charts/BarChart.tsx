@@ -1,22 +1,32 @@
 import Chart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 import { getCategoryColor, moneyFormatter } from "./chartTheme";
 
-const BarChart = ({ data }) => {
-  const categories = data.map(item => item.category);
-  const values = data.map(item => item.total);
-  const colors = data.map(item => getCategoryColor(item.category));
+interface BarData {
+  category: string;
+  total: number;
+}
 
-  const options = {
+interface BarChartProps {
+  data: BarData[];
+}
+
+const BarChart = ({ data }: BarChartProps): React.JSX.Element => {
+  const categories = data.map((item) => item.category);
+  const values = data.map((item) => item.total);
+  const colors = data.map((item) => getCategoryColor(item.category));
+
+  const options: ApexOptions = {
     chart: {
       foreColor: "#4b5563",
-      toolbar: { show: false }
+      toolbar: { show: false },
     },
     plotOptions: {
       bar: {
         borderRadius: 8,
         columnWidth: "42%",
-        distributed: true
-      }
+        distributed: true,
+      },
     },
     xaxis: {
       categories,
@@ -27,41 +37,41 @@ const BarChart = ({ data }) => {
         trim: false,
         style: {
           colors: "#4b5563",
-          fontSize: "12px"
-        }
-      }
+          fontSize: "12px",
+        },
+      },
     },
     yaxis: {
       labels: {
         style: {
-          colors: "#4b5563"
+          colors: "#4b5563",
         },
-        formatter: val => moneyFormatter(val)
-      }
+        formatter: (val) => moneyFormatter(val),
+      },
     },
     grid: {
-      borderColor: "rgba(107, 114, 128, 0.18)"
+      borderColor: "rgba(107, 114, 128, 0.18)",
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     legend: {
-      show: false
+      show: false,
     },
     tooltip: {
       y: {
-        formatter: val => moneyFormatter(val)
-      }
+        formatter: (val) => moneyFormatter(val),
+      },
     },
     colors,
     states: {
       hover: {
         filter: {
           type: "lighten",
-          value: 0.08
-        }
-      }
-    }
+          value: 0.08,
+        } as any,
+      },
+    },
   };
 
   const series = [{ name: "Gastos", data: values }];

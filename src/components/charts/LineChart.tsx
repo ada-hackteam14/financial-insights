@@ -1,73 +1,86 @@
 import Chart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 import { moneyFormatter } from "./chartTheme";
 
-const compactMoneyFormatter = value =>
-  Number(value) >= 1000
-    ? `R$ ${(Number(value) / 1000).toLocaleString("pt-BR", {
-        maximumFractionDigits: 1
-      })} mil`
-    : moneyFormatter(value);
+interface DataPoint {
+  total: number;
+  label: string;
+}
 
-const LineChart = ({ data }) => {
-  const values = data.map(item => item.total);
-  const categories = data.map(item => item.label);
+interface LineChartProps {
+  data: DataPoint[];
+}
+
+const compactMoneyFormatter = (value: number | string): string => {
+  const numValue = Number(value);
+  return numValue >= 1000
+    ? `R$ ${(numValue / 1000).toLocaleString("pt-BR", {
+        maximumFractionDigits: 1,
+      })} mil`
+    : moneyFormatter(numValue);
+};
+
+const LineChart = ({ data }: LineChartProps): React.JSX.Element => {
+  const values = data.map((item) => item.total);
+  const categories = data.map((item) => item.label);
+
   const startValue = values[0] || 0;
   const endValue = values[values.length - 1] || 0;
   const growth = endValue - startValue;
 
-  const options = {
+  const options: ApexOptions = {
     chart: {
       foreColor: "#4b5563",
       toolbar: { show: false },
-      zoom: { enabled: false }
+      zoom: { enabled: false },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
       curve: "smooth",
-      width: 3
+      width: 3,
     },
     markers: {
       size: 0,
       hover: {
-        size: 6
-      }
+        size: 6,
+      },
     },
     xaxis: {
       categories,
       tickAmount: 5,
       axisBorder: {
-        color: "rgba(107, 114, 128, 0.22)"
+        color: "rgba(107, 114, 128, 0.22)",
       },
       axisTicks: {
-        color: "rgba(107, 114, 128, 0.22)"
+        color: "rgba(107, 114, 128, 0.22)",
       },
       labels: {
         style: {
           colors: "#4b5563",
-          fontSize: "12px"
-        }
-      }
+          fontSize: "12px",
+        },
+      },
     },
     yaxis: {
       tickAmount: 4,
       labels: {
         style: {
           colors: "#4b5563",
-          fontSize: "12px"
+          fontSize: "12px",
         },
-        formatter: val => compactMoneyFormatter(val)
-      }
+        formatter: (val) => compactMoneyFormatter(val),
+      },
     },
     grid: {
       borderColor: "rgba(107, 114, 128, 0.14)",
       strokeDashArray: 4,
       xaxis: {
         lines: {
-          show: false
-        }
-      }
+          show: false,
+        },
+      },
     },
     fill: {
       type: "gradient",
@@ -75,18 +88,18 @@ const LineChart = ({ data }) => {
         shadeIntensity: 0.35,
         opacityFrom: 0.28,
         opacityTo: 0.03,
-        stops: [0, 80, 100]
-      }
+        stops: [0, 80, 100],
+      },
     },
     tooltip: {
       marker: {
-        show: false
+        show: false,
       },
       y: {
-        formatter: val => moneyFormatter(val)
-      }
+        formatter: (val) => moneyFormatter(val),
+      },
     },
-    colors: ["#8B5CF6"]
+    colors: ["#8B5CF6"],
   };
 
   const series = [{ name: "Gasto acumulado", data: values }];
